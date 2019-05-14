@@ -5,7 +5,7 @@ public class DotComponent extends JComponent {
     public DotComponent(int x, int y, int size) {
         super();
         setLocation(x, y);
-        setSize(size, size);
+        setSize(size, size);//width and height
     }
 
     @Override
