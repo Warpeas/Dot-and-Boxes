@@ -3,7 +3,13 @@ package Component;
 import javax.swing.*;
 import java.awt.*;
 
-public class EdgeComponent extends JComponent {
+public class EdgeComponent extends JComponent{
+    public boolean equals(EdgeComponent edgeComponent){
+    if (this.getX()==edgeComponent.getX()&&this.getY()==edgeComponent.getY()&&this.getColor()==edgeComponent.getColor())
+        return true;
+    else
+        return false;
+    }
     private Color color = Color.WHITE;
     private boolean free = true;
     

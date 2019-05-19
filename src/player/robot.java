@@ -7,10 +7,10 @@ public class robot extends player {
     
     public robot() {
 //        super("robot",Color.BLUE);
-        String name;
-        Color color;
-        Random random = new Random(10);
-        int r = random.nextInt();
+        String name = "";
+        Color color = Color.cyan;
+        Random random = new Random();
+        int r = random.nextInt(2);
         switch (r) {
             case 0:
                 name = "Tom";
@@ -24,9 +24,11 @@ public class robot extends player {
                 name = "Candy";
                 color = Color.MAGENTA;
                 break;
-            default:
-                name = "Judy";
-                color = Color.PINK;
+//            default: {
+//                name = "Judy";
+//                color = Color.PINK;
+//                break;
+//            }
         }
         this.setName(name);
         this.setColor(color);
