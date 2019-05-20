@@ -31,50 +31,51 @@ public class MainFrame extends JFrame {
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
-                move();
-                round++;
+                if (move() == 0)
+                    round++;
                 currentColor = players.get((round + 1) % amount).getColor();
 //                }
             } else {
-                event = SwingUtilities.convertMouseEvent(MainFrame.this, event, getContentPane());
-                Component component = getContentPane().getComponentAt(event.getPoint());//get component at the point's position
-                if (component instanceof EdgeComponent) {//if current component is a kind of Component.EdgeComponent
-                    EdgeComponent edgeComponent = (EdgeComponent) component;
-                    //when the select edge is not occupied
-                    if (edgeComponent.isFree()) {
-                        edgeComponent.setColor(currentColor);
-                        edgeComponent.setFree(false);//occupy
-                        edgeComponent.setVisible(true);
-                        edgeComponent.repaint();//paint again
-                        int i = 0, j = 0;
-                        loop:
-                        for (; i < 2 * m - 1; i++) {
-                            for (j = 0; j < 2 * n - 1; j++) {
-                                if (components[i][j] instanceof EdgeComponent) {
-                                    if (edgeComponent.equals((EdgeComponent) components[i][j])) {
-                                        break loop;
-                                    }
-                                }
-                            }
-                        }
-                        if (isClosed(i, j)) {
-                            scoreAdd(i, j);
-//                        players.get((round + 1) % amount).addScore();
-                        } else {
-                            round++;
-                            currentColor = players.get((round + 1) % amount).getColor();
-    
-                            if (mode == 1) {
+                if (mode == 1 && turn - 1 == round % amount) {
 //                            try {
 //                            Thread.sleep(500);
 //                        } catch (InterruptedException e) {
 //                            e.printStackTrace();
 //                        }
-                                move();
+                    if (move() == 0)
+                        round++;
+                } else {
+                    event = SwingUtilities.convertMouseEvent(MainFrame.this, event, getContentPane());
+                    Component component = getContentPane().getComponentAt(event.getPoint());//get component at the point's position
+                    if (component instanceof EdgeComponent) {//if current component is a kind of Component.EdgeComponent
+                        EdgeComponent edgeComponent = (EdgeComponent) component;
+                        //when the select edge is not occupied
+                        if (edgeComponent.isFree()) {
+                            edgeComponent.setColor(currentColor);
+                            edgeComponent.setFree(false);//occupy
+                            edgeComponent.setVisible(true);
+                            edgeComponent.repaint();//paint again
+                            int i = 0, j = 0;
+                            loop:
+                            for (; i < 2 * m - 1; i++) {
+                                for (j = 0; j < 2 * n - 1; j++) {
+                                    if (components[i][j] instanceof EdgeComponent) {
+                                        if (edgeComponent.equals((EdgeComponent) components[i][j])) {
+                                            break loop;
+                                        }
+                                    }
+                                }
+                            }
+                            if (isClosed(i, j)) {
+                                scoreAdd(i, j);
+//                        players.get((round + 1) % amount).addScore();
+                            } else {
                                 round++;
+                                currentColor = players.get((round + 1) % amount).getColor();
+                                
+                                
                             }
                         }
-                    }
 //                    currentColor = currentColor == Color.RED ? Color.BLUE : Color.RED;//change color
 //                    if (isEnd()) {
 //                        sort();
@@ -89,10 +90,11 @@ public class MainFrame extends JFrame {
 //                        System.exit(0);
 ////                        setVisible(false);
 //                    }
+                    }
                 }
             }
-                endTest();
-            }
+            endTest();
+        }
         
         //MouseMovement
         @Override
@@ -344,15 +346,15 @@ public class MainFrame extends JFrame {
 //                round++;
 //            }
             mainFrame.setVisible(true);//make mainFrame visible
-            if (mode == 1 && turn == 2) {
-//                try {
-//                    Thread.sleep(5000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-                mainFrame.move();
-                round++;
-            }
+//            if (mode == 1 && turn == 2) {
+////                try {
+////                    Thread.sleep(5000);
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+//                mainFrame.move();
+//                round++;
+//            }
 //            } else if (mode == 2) {
 //                while (!mainFrame.isEnd()) {
 //                    mainFrame.getContentPane().revalidate();
@@ -572,7 +574,7 @@ public class MainFrame extends JFrame {
             return false;
     }
     
-    private void move() {
+    private int move() {
         int i = -1;
         int j = -1;
 //        try {
@@ -622,9 +624,9 @@ public class MainFrame extends JFrame {
         if (i != -1) {
             if (isClosed(i, j)) {
                 scoreAdd(i, j);
-                move();
-            }
-        }
+                return 1;
+            } else return 0;
+        } else return -1;
 //        if (isEnd())
 //            endTest();
 //        } else {
