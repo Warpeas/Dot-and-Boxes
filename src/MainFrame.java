@@ -56,7 +56,6 @@ public class MainFrame extends JFrame {
 //                            try {
 //                            Thread.sleep(500);
 //                        } catch (InterruptedException e) {
-//                            // TODO Auto-generated catch block
 //                            e.printStackTrace();
 //                        }
                             move();
@@ -318,7 +317,6 @@ public class MainFrame extends JFrame {
 //                try {
 //                    Thread.sleep(5000);
 //                } catch (InterruptedException e) {
-//                    // TODO Auto-generated catch block
 //                    e.printStackTrace();
 //                }
                 mainFrame.move();
@@ -480,7 +478,6 @@ public class MainFrame extends JFrame {
 //        try {
 //            Thread.sleep(5000);
 //        } catch (InterruptedException e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
         if (!isEnd()) {
