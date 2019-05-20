@@ -10,7 +10,7 @@ public class robot extends player {
         String name = "";
         Color color = Color.cyan;
         Random random = new Random();
-        int r = random.nextInt(2);
+        int r = random.nextInt(3);
         switch (r) {
             case 0:
                 name = "Tom";

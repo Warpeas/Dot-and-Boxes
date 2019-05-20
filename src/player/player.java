@@ -11,7 +11,7 @@ public class player extends JFrame {
     
     private String name;
     private Color color;
-    private int score=0;
+    private int score = 0;
     
     public String getName() {
         return name;
@@ -37,9 +37,11 @@ public class player extends JFrame {
         this.score = score;
     }
     
-    public void addScore(){this.score += 1;}
+    public void addScore() {
+        this.score += 1;
+    }
     
-//    public class GameMouseListener extends MouseInputAdapter {
+    //    public class GameMouseListener extends MouseInputAdapter {
 //        //MouseClick
 //        @Override
 //        public void mouseClicked(MouseEvent event) {
@@ -83,7 +85,7 @@ public class player extends JFrame {
 //                }
 //            });
     //MouseEnd
-    public void move(){
+    public void move() {
 //        MainFrame.GameMouseListener mouseListener = new MainFrame.GameMouseListener();
 //        addMouseListener(mouseListener);
 //        addMouseMotionListener(mouseListener);

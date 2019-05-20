@@ -23,6 +23,20 @@ public class MainFrame extends JFrame {
         //MouseClick
         @Override
         public void mouseClicked(MouseEvent event) {
+//            if (mode == 2) {
+//            while (!isEnd()) {
+//                validate();
+////                try {
+////                    Thread.sleep(500);
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+//                move();
+//                round++;
+//                currentColor = players.get((round + 1) % amount).getColor();
+//            }
+//            endTest();
+//        } else {
             currentColor = players.get((round + 1) % amount).getColor();
             event = SwingUtilities.convertMouseEvent(MainFrame.this, event, getContentPane());
             Component component = getContentPane().getComponentAt(event.getPoint());//get component at the point's position
@@ -78,6 +92,7 @@ public class MainFrame extends JFrame {
 //                    }
                     endTest();
                 }
+//                }
             }
         }
         
@@ -96,7 +111,20 @@ public class MainFrame extends JFrame {
 //                        e.setVisible(false);
 //                    }
 //                }
-            
+//            if (mode == 2) {
+//                while (!isEnd()) {
+//                    validate();
+////                try {
+////                    Thread.sleep(500);
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+//                    move();
+//                    round++;
+//                    currentColor = players.get((round + 1) % amount).getColor();
+//                }
+//                endTest();
+//            } else {
             for (int i = 0; i < components.length; i++) {
                 for (int j = 0; j < components[i].length; j++) {
                     if (components[i][j] instanceof EdgeComponent) {
@@ -110,8 +138,8 @@ public class MainFrame extends JFrame {
                             }
                         }
                     }
+//                    }
                 }
-            }
 
 //            for (int i = 1; i < components.length; i += 2) {
 //                for (int j = 0; j < components[i].length; j += 2) {
@@ -135,6 +163,7 @@ public class MainFrame extends JFrame {
 //                    e.setVisible(false);
 //                }
 //            });
+            }
         }
     }
     //MouseEnd
@@ -144,15 +173,15 @@ public class MainFrame extends JFrame {
         initialize();
         currentColor = players.get((round + 1) % amount).getColor();
         if (mode != 2) {
-            GameMouseListener mouseListener = new GameMouseListener();
-            addMouseListener(mouseListener);
-            addMouseMotionListener(mouseListener);
+        GameMouseListener mouseListener = new GameMouseListener();
+        addMouseListener(mouseListener);
+        addMouseMotionListener(mouseListener);
         }
     }
     
     public void initialize() {
         setTitle("CS102A Project");//window title
-        setSize(m * 175, n * 375 / 2);//window size
+        setSize(n * 175, m * 375 / 2);//window size
         setLocationRelativeTo(null); // Center the window.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//Exit when close the window
         setLayout(null);
@@ -205,11 +234,15 @@ public class MainFrame extends JFrame {
     
     
     public static void main(String[] args) {
+        System.out.println("Happy 520\nWelcome to Dots-and-Boxes game");
         Scanner in = new Scanner(System.in);
         System.out.print("Mode:");
         mode = Integer.parseInt(in.nextLine().trim());
         System.out.print("Player's amount: ");
         amount = Integer.parseInt(in.nextLine().trim());
+        if (mode == 1)
+            if (amount > 2)
+                amount = 2;
         System.out.print("row: ");
         m = Integer.parseInt(in.nextLine().trim());
         System.out.print("column: ");
@@ -321,8 +354,15 @@ public class MainFrame extends JFrame {
 //                }
                 mainFrame.move();
                 round++;
-            } else if (mode == 2) {
+            }
+             else if (mode == 2) {
                 while (!mainFrame.isEnd()) {
+                    mainFrame.validate();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     mainFrame.move();
                     round++;
                     mainFrame.currentColor = players.get((round + 1) % amount).getColor();
@@ -333,12 +373,13 @@ public class MainFrame extends JFrame {
     }
     
     private void scoreAdd(int i, int j) {
+        EdgeComponent e0 = (EdgeComponent) components[i][j];
         if (i % 2 == 0) {
             try {
                 EdgeComponent e1 = (EdgeComponent) components[i - 2][j];
                 EdgeComponent e5 = (EdgeComponent) components[i - 1][j + 1];
                 EdgeComponent e6 = (EdgeComponent) components[i - 1][j - 1];
-                if (!e1.isFree() && !e5.isFree() && !e6.isFree()) {
+                if (!e1.isFree() && !e5.isFree() && !e6.isFree() && !e0.isFree()) {
                     players.get((round + 1) % amount).addScore();
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -348,7 +389,7 @@ public class MainFrame extends JFrame {
                 EdgeComponent e2 = (EdgeComponent) components[i + 2][j];
                 EdgeComponent e3 = (EdgeComponent) components[i + 1][j + 1];
                 EdgeComponent e4 = (EdgeComponent) components[i + 1][j - 1];
-                if (!e2.isFree() && !e3.isFree() && !e4.isFree()) {
+                if (!e2.isFree() && !e3.isFree() && !e4.isFree() && !e0.isFree()) {
                     players.get((round + 1) % amount).addScore();
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -359,7 +400,7 @@ public class MainFrame extends JFrame {
                 EdgeComponent e1 = (EdgeComponent) components[i][j - 2];
                 EdgeComponent e5 = (EdgeComponent) components[i - 1][j - 1];
                 EdgeComponent e6 = (EdgeComponent) components[i + 1][j - 1];
-                if (!e1.isFree() && !e5.isFree() && !e6.isFree()) {
+                if (!e1.isFree() && !e5.isFree() && !e6.isFree() && !e0.isFree()) {
                     players.get((round + 1) % amount).addScore();
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -369,14 +410,74 @@ public class MainFrame extends JFrame {
             EdgeComponent e2 = (EdgeComponent) components[i][j + 2];
             EdgeComponent e3 = (EdgeComponent) components[i - 1][j + 1];
             EdgeComponent e4 = (EdgeComponent) components[i + 1][j + 1];
-            if (!e2.isFree() && !e3.isFree() && !e4.isFree()) {
+            if (!e2.isFree() && !e3.isFree() && !e4.isFree() && !e0.isFree()) {
                 players.get((round + 1) % amount).addScore();
             }
         } catch (ArrayIndexOutOfBoundsException e) {
         
         }
     }
-    
+
+//    private void addScore(int i, int j) {
+//        EdgeComponent e0 = (EdgeComponent) components[i][j];
+//        if (i % 2 == 0) {
+//            try {
+//                EdgeComponent e1 = (EdgeComponent) components[i - 2][j];
+//                EdgeComponent e5 = (EdgeComponent) components[i - 1][j + 1];
+//                EdgeComponent e6 = (EdgeComponent) components[i - 1][j - 1];
+//                if (!e1.isFree() && !e5.isFree() && !e6.isFree() && !e0.isFree()) {
+////                    components[i - 1][j] = new JLabel(players.get((round + 1) % amount).getName());
+////                    components[i - 1][j].setSize(50, 50);
+////                    components[i - 1][j].setLocation((components[i - 2][j].getX() + components[i][j].getX()) / 2, (components[i - 1][j + 1].getY() + components[i - 1][j - 1].getY()) / 2);
+////                    components[i - 1][j].setForeground(players.get(round % amount).getColor());
+////                    components[i-1][j].setVisible(true);
+////                    getContentPane().add(components[i][j - 1]);
+//                    players.get((round + 1) % amount).addScore();
+//                }
+//            } catch (ArrayIndexOutOfBoundsException e) {
+//
+//            }
+//            try {
+//                EdgeComponent e2 = (EdgeComponent) components[i + 2][j];
+//                EdgeComponent e3 = (EdgeComponent) components[i + 1][j + 1];
+//                EdgeComponent e4 = (EdgeComponent) components[i + 1][j - 1];
+//                if (!e2.isFree() && !e3.isFree() && !e4.isFree() && !e0.isFree()) {
+//                    components[i + 1][j] = new JLabel(players.get(round % amount).getName());
+//                    components[i + 1][j].setForeground(players.get(round % amount).getColor());
+//                    getContentPane().add(components[i + 1][j]);
+//                    players.get((round + 1) % amount).addScore();
+//                }
+//            } catch (ArrayIndexOutOfBoundsException e) {
+//
+//            }
+//        } else
+//            try {
+//                EdgeComponent e1 = (EdgeComponent) components[i][j - 2];
+//                EdgeComponent e5 = (EdgeComponent) components[i - 1][j - 1];
+//                EdgeComponent e6 = (EdgeComponent) components[i + 1][j - 1];
+//                if (!e1.isFree() && !e5.isFree() && !e6.isFree() && !e0.isFree()) {
+//                    components[i][j - 1] = new JLabel(players.get(round % amount).getName());
+//                    components[i][j - 1].setForeground(players.get(round % amount).getColor());
+//                    getContentPane().add(components[i][j - 1]);
+//                    players.get((round + 1) % amount).addScore();
+//                }
+//            } catch (ArrayIndexOutOfBoundsException e) {
+//
+//            }
+//        try {
+//            EdgeComponent e2 = (EdgeComponent) components[i][j + 2];
+//            EdgeComponent e3 = (EdgeComponent) components[i - 1][j + 1];
+//            EdgeComponent e4 = (EdgeComponent) components[i + 1][j + 1];
+//            if (!e2.isFree() && !e3.isFree() && !e4.isFree() && !e0.isFree()) {
+//                components[i][j + 1] = new JLabel(players.get(round % amount).getName());
+//                components[i][j + 1].setForeground(players.get(round % amount).getColor());
+//                getContentPane().add(components[i][j + 1]);
+//                players.get((round + 1) % amount).addScore();
+//            }
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//
+//        }
+//    }
     
     private boolean isClosed(int i, int j) {
         EdgeComponent e0 = (EdgeComponent) components[i][j];
@@ -386,11 +487,12 @@ public class MainFrame extends JFrame {
                 EdgeComponent e5 = (EdgeComponent) components[i - 1][j + 1];
                 EdgeComponent e6 = (EdgeComponent) components[i - 1][j - 1];
                 if (!e1.isFree() && !e5.isFree() && !e6.isFree() && !e0.isFree()) {
-                    components[i - 1][j] = new JLabel(players.get((round + 1) % amount).getName());
-                    components[i - 1][j].setSize(50, 50);
-                    components[i - 1][j].setLocation((components[i - 2][j].getX() + components[i][j].getX()) / 2, (components[i - 1][j + 1].getY() + components[i - 1][j - 1].getY()) / 2);
-                    components[i - 1][j].setForeground(players.get(round % amount).getColor());
-                    getContentPane().add(components[i][j - 1]);
+//                    components[i - 1][j] = new JLabel(players.get((round + 1) % amount).getName());
+//                    components[i - 1][j].setSize(50, 50);
+//                    components[i - 1][j].setLocation((components[i - 2][j].getX() + components[i][j].getX()) / 2, (components[i - 1][j + 1].getY() + components[i - 1][j - 1].getY()) / 2);
+//                    components[i - 1][j].setForeground(players.get(round % amount).getColor());
+//                    components[i-1][j].setVisible(true);
+//                    getContentPane().add(components[i][j - 1]);
                     return true;
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -403,7 +505,7 @@ public class MainFrame extends JFrame {
                 if (!e2.isFree() && !e3.isFree() && !e4.isFree() && !e0.isFree()) {
                     components[i + 1][j] = new JLabel(players.get(round % amount).getName());
                     components[i + 1][j].setForeground(players.get(round % amount).getColor());
-                    getContentPane().add(components[i][j - 1]);
+                    getContentPane().add(components[i + 1][j]);
                     return true;
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -430,7 +532,7 @@ public class MainFrame extends JFrame {
             if (!e2.isFree() && !e3.isFree() && !e4.isFree() && !e0.isFree()) {
                 components[i][j + 1] = new JLabel(players.get(round % amount).getName());
                 components[i][j + 1].setForeground(players.get(round % amount).getColor());
-                getContentPane().add(components[i][j - 1]);
+                getContentPane().add(components[i][j + 1]);
                 return true;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -497,6 +599,7 @@ public class MainFrame extends JFrame {
                     edgeComponent = (EdgeComponent) components[i][j];
             }
             edgeComponent.setFree(false);
+            edgeComponent.setVisible(true);
 
 //    getContentPane().remove(components[i][j]);
 //    components[i][j].setVisible(true);
@@ -516,6 +619,7 @@ public class MainFrame extends JFrame {
             edgeComponent.setFree(false);//occupy
             edgeComponent.setVisible(true);
             edgeComponent.repaint();//paint again
+//            validate();
         }
         if (i != -1) {
             if (isClosed(i, j)) {
@@ -542,6 +646,14 @@ public class MainFrame extends JFrame {
     private void endTest() {
         if (isEnd()) {
             sort();
+            int maxScore = (m - 1) * (n - 1);
+            int scores = 0;
+            for (int i = 0; i < players.size(); i++) {
+                scores += players.get(i).getScore();
+            }
+            if (scores > maxScore) {
+                players.get(0).setScore(players.get(0).getScore() - 1);
+            }
             for (int k = 0; k < players.size(); k++) {
                 System.out.printf("%-3d%8s%3d\n", k + 1, players.get(k).getName(), players.get(k).getScore());
             }
