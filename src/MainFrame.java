@@ -23,57 +23,56 @@ public class MainFrame extends JFrame {
         //MouseClick
         @Override
         public void mouseClicked(MouseEvent event) {
-//            if (mode == 2) {
-//            while (!isEnd()) {
-//                validate();
-////                try {
-////                    Thread.sleep(500);
-////                } catch (InterruptedException e) {
-////                    e.printStackTrace();
-////                }
-//                move();
-//                round++;
-//                currentColor = players.get((round + 1) % amount).getColor();
-//            }
-//            endTest();
-//        } else {
             currentColor = players.get((round + 1) % amount).getColor();
-            event = SwingUtilities.convertMouseEvent(MainFrame.this, event, getContentPane());
-            Component component = getContentPane().getComponentAt(event.getPoint());//get component at the point's position
-            if (component instanceof EdgeComponent) {//if current component is a kind of Component.EdgeComponent
-                EdgeComponent edgeComponent = (EdgeComponent) component;
-                //when the select edge is not occupied
-                if (edgeComponent.isFree()) {
-                    edgeComponent.setColor(currentColor);
-                    edgeComponent.setFree(false);//occupy
-                    edgeComponent.setVisible(true);
-                    edgeComponent.repaint();//paint again
-                    int i = 0, j = 0;
-                    loop:
-                    for (; i < 2 * m - 1; i++) {
-                        for (j = 0; j < 2 * n - 1; j++) {
-                            if (components[i][j] instanceof EdgeComponent) {
-                                if (edgeComponent.equals((EdgeComponent) components[i][j])) {
-                                    break loop;
+            if (mode == 2) {
+//                while (!isEnd()) {
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+                move();
+                round++;
+                currentColor = players.get((round + 1) % amount).getColor();
+//                }
+            } else {
+                event = SwingUtilities.convertMouseEvent(MainFrame.this, event, getContentPane());
+                Component component = getContentPane().getComponentAt(event.getPoint());//get component at the point's position
+                if (component instanceof EdgeComponent) {//if current component is a kind of Component.EdgeComponent
+                    EdgeComponent edgeComponent = (EdgeComponent) component;
+                    //when the select edge is not occupied
+                    if (edgeComponent.isFree()) {
+                        edgeComponent.setColor(currentColor);
+                        edgeComponent.setFree(false);//occupy
+                        edgeComponent.setVisible(true);
+                        edgeComponent.repaint();//paint again
+                        int i = 0, j = 0;
+                        loop:
+                        for (; i < 2 * m - 1; i++) {
+                            for (j = 0; j < 2 * n - 1; j++) {
+                                if (components[i][j] instanceof EdgeComponent) {
+                                    if (edgeComponent.equals((EdgeComponent) components[i][j])) {
+                                        break loop;
+                                    }
                                 }
                             }
                         }
-                    }
-                    if (isClosed(i, j)) {
-                        scoreAdd(i, j);
+                        if (isClosed(i, j)) {
+                            scoreAdd(i, j);
 //                        players.get((round + 1) % amount).addScore();
-                    } else {
-                        round++;
-                        currentColor = players.get((round + 1) % amount).getColor();
-                        
-                        if (mode == 1) {
+                        } else {
+                            round++;
+                            currentColor = players.get((round + 1) % amount).getColor();
+    
+                            if (mode == 1) {
 //                            try {
 //                            Thread.sleep(500);
 //                        } catch (InterruptedException e) {
 //                            e.printStackTrace();
 //                        }
-                            move();
-                            round++;
+                                move();
+                                round++;
+                            }
                         }
                     }
 //                    currentColor = currentColor == Color.RED ? Color.BLUE : Color.RED;//change color
@@ -90,11 +89,10 @@ public class MainFrame extends JFrame {
 //                        System.exit(0);
 ////                        setVisible(false);
 //                    }
-                    endTest();
                 }
-//                }
             }
-        }
+                endTest();
+            }
         
         //MouseMovement
         @Override
@@ -172,11 +170,11 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         initialize();
         currentColor = players.get((round + 1) % amount).getColor();
-        if (mode != 2) {
+//        if (mode != 2) {
         GameMouseListener mouseListener = new GameMouseListener();
         addMouseListener(mouseListener);
         addMouseMotionListener(mouseListener);
-        }
+//        }
     }
     
     public void initialize() {
@@ -355,20 +353,20 @@ public class MainFrame extends JFrame {
                 mainFrame.move();
                 round++;
             }
-             else if (mode == 2) {
-                while (!mainFrame.isEnd()) {
-                    mainFrame.validate();
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mainFrame.move();
-                    round++;
-                    mainFrame.currentColor = players.get((round + 1) % amount).getColor();
-                }
-                mainFrame.endTest();
-            }
+//            } else if (mode == 2) {
+//                while (!mainFrame.isEnd()) {
+//                    mainFrame.getContentPane().revalidate();
+//                    try {
+//                        Thread.sleep(500);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    mainFrame.move();
+//                    round++;
+//                    mainFrame.currentColor = players.get((round + 1) % amount).getColor();
+//                }
+//                mainFrame.endTest();
+//            }
         }
     }
     
@@ -627,6 +625,8 @@ public class MainFrame extends JFrame {
                 move();
             }
         }
+//        if (isEnd())
+//            endTest();
 //        } else {
 //            if (MainFrame.mode == 2) {
 //                sort();
